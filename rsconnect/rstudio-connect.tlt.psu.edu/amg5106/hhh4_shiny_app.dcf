@@ -1,0 +1,12 @@
+name: hhh4_shiny_app
+title: HHH4_Shiny_App
+username: amg5106
+account: amg5106
+server: rstudio-connect.tlt.psu.edu
+hostUrl: https://rstudio-connect.tlt.psu.edu:3939/__api__
+appId: 346
+bundleId: 1922
+url: https://rstudio-connect.tlt.psu.edu:3939/content/c911aa5f-7601-4ecd-9017-dd6da1ee325b/
+when: 1622827592.93248
+asMultiple: FALSE
+asStatic: FALSE
