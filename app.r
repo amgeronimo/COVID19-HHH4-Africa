@@ -7,7 +7,7 @@ library(shiny)
 library(htmlwidgets)
 library(htmltools)
 library(leaflet)
-library(geojsonio)a
+library(geojsonio)
 library(sf)
 library(leafletCN)
 library(ggplot2)
