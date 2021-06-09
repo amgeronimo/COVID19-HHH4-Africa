@@ -99,7 +99,7 @@ cpal = cividis(256)
 
 ##Creating Interface
 
-shinyUI <- navbarPage("Covid19 hhh4 Africa",
+ui <- navbarPage("Covid19 hhh4 Africa",
                  tabPanel("Explore Data", 
                           sidebarLayout(             #creates sidebar of inputs and countries
                             sidebarPanel(
