@@ -99,8 +99,8 @@ cpal = cividis(256)
 
 ##Creating Interface
 
-ui <- navbarPage("Covid19 hhh4 Africa",
-                 tabPanel("Explore Data", 
+ui <- navbarPage("COVID-19 in Africa",
+                tabPanel("Explore Data", 
                           sidebarLayout(             #creates sidebar of inputs and countries
                             sidebarPanel(
                               width = 3,
@@ -110,8 +110,15 @@ ui <- navbarPage("Covid19 hhh4 Africa",
                               selectInput("countries",
                                           "Countries",
                                           md$name, 
-                                          selected = "Algeria", 
-                                          multiple=TRUE),
+                                          selected = "Algeria",
+                                          multiple = TRUE), 
+                              h4(HTML(paste("This application is an interactive companion to the data reported in  ",
+                                                       tags$a(href="https://www.medrxiv.org/content/10.1101/2020.11.13.20231241v1.full", 
+                                                              "Pan-African Evolution of Within and Between Country COVID-19 Dynamics"),
+                                                       " (Ssentongo et al., 2021). The code to reproduce",
+                                                       "these results and extend the analysis past August 2020 is available at the",
+                                                       tags$a(href="https://github.com/Schiff-Lab/COVID19-HHH4-Africa", 
+                                                              "Schiff Lab github.")))),
                             ),
                             mainPanel(  #offsetting map and time series
                               fluidRow(column(11, offset = 0, leafletOutput("mymap"))),
