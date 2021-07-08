@@ -64,9 +64,9 @@ LayerMapping =  c(
   "SSA" = "SSA",
   "Population (millions)" = "Pop2020_Mi",
   "HDI in 2018" = "HDI_2018",
-  "Rainfall (mm)" = "rain",
-  "Temperature (\u00B0C)" = "temperature",
-  "Humidity (g/kg)" = "humidity",
+#  "Rainfall (mm)" = "rain",
+#  "Temperature (\u00B0C)" = "temperature",
+#  "Humidity (g/kg)" = "humidity",
   "Strigency" = "stringency",
   "Testing" = "testing"
 )
@@ -120,11 +120,12 @@ ui <- navbarPage("COVID-19 in Africa",
                                             "these results is available at the",
                                             tags$a(href="https://github.com/Schiff-Lab/COVID19-HHH4-Africa/tree/shiny", 
                                                    "Schiff Lab github."),
-                                            " ",
+                                            "<br><br>",
                                             "The version of this application that is time-locked to the dates",
                                             "presented in the manuscript can be found",
                                               tags$a(href="http://146.186.149.88:3838/COVID19-HHH4-Africa/", 
-                                                              "here.")))) 
+                                                              "here."),
+                                            "<br><br>**Weather factors are not currently available in this version**"))) 
                             ),
                             mainPanel(  #offsetting map and time series
                               fluidRow(column(11, offset = 0, leafletOutput("mymap"))),
