@@ -112,13 +112,19 @@ ui <- navbarPage("COVID-19 in Africa",
                                           md$name, 
                                           selected = "Algeria",
                                           multiple = TRUE), 
-                              h4(HTML(paste("This application is an interactive companion to the data reported in  ",
-                                                       tags$a(href="https://www.pnas.org/content/118/28/e2026664118", 
+                              h4(HTML(paste("This is an interactive companion to the results presented in ",
+                                            tags$a(href="https://www.pnas.org/content/118/28/e2026664118", 
                                                               "Pan-African Evolution of Within and Between Country COVID-19 Dynamics"),
-                                                       " (Ssentongo et al., 2021). The code to reproduce",
-                                                       "these results is available at the",
-                                                       tags$a(href="https://github.com/Schiff-Lab/COVID19-HHH4-Africa", 
-                                                              "Schiff Lab github.")))),
+                                                       " (Ssentongo et al., 2021) which has been updated to include the the most recent",
+                                                       "90 days of data. The code to reproduce",
+                                            "these results is available at the",
+                                            tags$a(href="https://github.com/Schiff-Lab/COVID19-HHH4-Africa/tree/shiny", 
+                                                   "Schiff Lab github."),
+                                            " ",
+                                            "The version of this application that is time-locked to the dates",
+                                            "presented in the manuscript can be found",
+                                              tags$a(href="http://146.186.149.88:3838/COVID19-HHH4-Africa/", 
+                                                              "here.")))) 
                             ),
                             mainPanel(  #offsetting map and time series
                               fluidRow(column(11, offset = 0, leafletOutput("mymap"))),
@@ -380,10 +386,12 @@ server <- function(input, output) {
     ) +
       aes_string(y = input$layer) +
       ylab(names(LayerMapping[LayerMapping %in% input$layer])) +
+      xlab("") +
+      scale_x_date(date_labels = ("%b %Y")) +
       geom_line(size=1) +
       scale_color_manual(values=pal(dmn[md$name %in% input$countries]))+
       #thematic elements
-      ggtitle(paste(names(LayerMapping[LayerMapping %in% input$layer]), pf$time[1], "-", pf$time[length(pf$time)]))+
+      #ggtitle(paste(names(LayerMapping[LayerMapping %in% input$layer]), pf$time[1], "-", pf$time[length(pf$time)]))+
       geom_label_repel(data = country_label,
                        mapping = aes(x = time, group = country, label=country),
                        nudge_x = -10,
