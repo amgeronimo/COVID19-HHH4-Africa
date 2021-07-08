@@ -170,8 +170,10 @@ server <- function(input, output) {
   output$table <- function(){
     
     fit <- readRDS("output/models/fitted_model_LAG7_RE.rds")
-    beta_hat <- fit$coefficients[1:16]
-    sd_hat <- fit$se[1:16]
+    beta_hat <- fit$coefficients[1:14]
+    sd_hat <- fit$se[1:14]
+    #beta_hat <- fit$coefficients[1:16]
+    #sd_hat <- fit$se[1:16]
     zscores <- beta_hat / sd_hat
     pvalues <- 2 * pnorm(abs(zscores), lower.tail = F)
     pvalues <- as.character(ifelse(pvalues < 0.001, "< 0.001", round(pvalues, 3)))
@@ -181,32 +183,46 @@ server <- function(input, output) {
     tab <- readr::read_csv("output/tables/tab_params_LAG7_RE.csv")
     tab <- tab %>%
       left_join(pvalues)
-    tab <- tab[c(16, 9, 1:8, 15, 10:14, 17, 18), ]
-    tab$pvalues[c(1, 2, 11, 17:18)] <- "-"
+    tab <- tab[c(12,6,1:5, 7:11, 13, 14),]
+    #tab <- tab[c(16, 9, 1:8, 15, 10:14, 17, 18), ]
+    tab$pvalues[c(1, 2, 8,13,14)] <- "-"
+    #tab$pvalues[c(1, 2, 11, 17:18)] <- "-"
     tab[, 2:4] <- apply(tab[,2:4], 2,
                         function(x) ifelse(nchar(x) < 5, paste0(x, 0), x))
     tab$Params <- c("Intercept", "Intercept", "log(population)", "HDI",
                     "Landlocked", "Stringency(t-7)", "Testing(t-7)",
-                    "Rain(t-7)", "Temperature(t-7)", "Humidity(t-7)",
-                    "Intercept", "log(population)",
+                    "Intercept",
                     "HDI", "Landlocked", "Stringency(t-7)", "Testing(t-7)",
                     "rho", "psi")
-    
+    #tab$Params <- c("Intercept", "Intercept", "log(population)", "HDI",
+    #                "Landlocked", "Stringency(t-7)", "Testing(t-7)",
+    #                "Rain(t-7)", "Temperature(t-7)", "Humidity(t-7)",
+    #                "Intercept", "log(population)",
+    #                "HDI", "Landlocked", "Stringency(t-7)", "Testing(t-7)",
+    #                "rho", "psi")
     CI <- paste0("(", tab$`2.5 %`, ", ", tab$`97.5 %`, ")")
     tab$`97.5 %` <- NULL
     tab$`2.5 %` <- CI
     names(tab)[3] <- "CI"
     boldID <- which(tab$pvalues == "< 0.001" | as.numeric(tab$pvalues) <= 0.1)
-    
     kbl(tab, col.names = c("Parameter", "Relative Risk", "95% CI", "p-value"),
         align = c("lccc") ) %>%
       kable_material(full_width = T, font_size = 20) %>%
       row_spec(0, bold = T) %>%
       row_spec(boldID, background = "#cdf7d6", color = "Black") %>%
       pack_rows("Endemic", 1, 1, background = "#e8e8e8") %>%
-      pack_rows("Within-country", 2, 10, background = "#e8e8e8") %>%
-      pack_rows("Between-country", 11, 16, background = "#e8e8e8") %>%
-      pack_rows("", 17, 18, background = "#e8e8e8")
+      pack_rows("Within-country", 2, 7, background = "#e8e8e8") %>%
+      pack_rows("Between-country", 8, 12, background = "#e8e8e8") %>%
+      pack_rows("", 13, 14, background = "#e8e8e8")
+    #kbl(tab, col.names = c("Parameter", "Relative Risk", "95% CI", "p-value"),
+    #    align = c("lccc") ) %>%
+    #  kable_material(full_width = T, font_size = 20) %>%
+    #  row_spec(0, bold = T) %>%
+    #  row_spec(boldID, background = "#cdf7d6", color = "Black") %>%
+    #  pack_rows("Endemic", 1, 1, background = "#e8e8e8") %>%
+    #  pack_rows("Within-country", 2, 10, background = "#e8e8e8") %>%
+    #  pack_rows("Between-country", 11, 16, background = "#e8e8e8") %>%
+    #  pack_rows("", 17, 18, background = "#e8e8e8")
   }
   
   
