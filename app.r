@@ -22,13 +22,19 @@ library(viridis)
 
 source("R/functions.R")
 
-
+#Use RE data
+use_re = FALSE
+if (use_re) {
+  suffix = "_RE"
+} else {
+  suffix = ""
+}
 
 
 ##Reading in Data
 
 #Shinydata.rds is saved in model_fitting
-pf = readRDS("output/models/shinydata.rds")
+pf = readRDS(paste0("output/models/shinydata",suffix,".rds"))
 pf_fitted = pf;
 
 
@@ -76,10 +82,10 @@ afmap <- md
 afmap_geo <- geojson_json(afmap, geometry = "polygon")
 
 #creating fit (THIS DOES NOT EXIST)
-all_fitted = readRDS("output/models/fitted_mean.rds")
+all_fitted = readRDS(paste0("output/models/fitted_mean",suffix,".rds"))
 
 
-all_preds = readRDS("output/models/predictions.rds")
+all_preds = readRDS(paste0("output/models/predictions",suffix,".rds"))
 all_preds$time <- as.Date(all_preds$time,"%Y-%m-%d")
 all_preds = all_preds %>%
   rename(country = cname)
@@ -169,7 +175,7 @@ server <- function(input, output) {
   # Generate an HTML table view of the data ----
   output$table <- function(){
     
-    fit <- readRDS("output/models/fitted_model_LAG7_RE.rds")
+    fit <- readRDS(paste0("output/models/fitted_model_LAG7",suffix,".rds"))
     beta_hat <- fit$coefficients[1:14]
     sd_hat <- fit$se[1:14]
     #beta_hat <- fit$coefficients[1:16]
@@ -180,7 +186,7 @@ server <- function(input, output) {
     pvalues <- ifelse(nchar(pvalues) < 5, paste0(pvalues, 0), pvalues)
     pvalues <- tibble(Params = names(beta_hat), pvalues)
     
-    tab <- readr::read_csv("output/tables/tab_params_LAG7_RE.csv")
+    tab <- readr::read_csv(paste0("output/tables/tab_params_LAG7",suffix,".csv"))
     tab <- tab %>%
       left_join(pvalues)
     tab <- tab[c(12,6,1:5, 7:11, 13, 14),]
